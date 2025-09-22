@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
+import path from 'path'
 import authRouter from './routes/auth.js'
 import bookingsRouter from './routes/bookings.js'
 import guideRouter from './routes/guide.js'
@@ -34,6 +35,18 @@ app.use('/api/messages', messagesRouter)
 app.use('/api/itinerary', itineraryRouter)
 app.use('/api/ai', aiRouter)
 app.use('/api/payments', paymentsRouter)
+
+// --- Static hosting for frontend build ---
+// Resolve path to frontend/dist (frontend is sibling of backend)
+const __dirname = path.resolve()
+const frontendDist = path.resolve(__dirname, '..', 'frontend', 'dist')
+app.use(express.static(frontendDist))
+
+// SPA fallback: for any non-API route, return index.html
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api/')) return next()
+  res.sendFile(path.join(frontendDist, 'index.html'))
+})
 
 app.listen(PORT, () => {
   try { seedGuidesIfEmpty() } catch (e) { console.error('Seeding guides failed:', e) }
