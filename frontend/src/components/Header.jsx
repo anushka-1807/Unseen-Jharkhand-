@@ -48,8 +48,8 @@ export default function Header() {
     <header className="site-header">
       <div className="container header-inner">
         <Link to={isGuide ? '/guide' : '/'} className="brand">
-          <span className="brand-mark" aria-hidden>⟡</span>
-          Unseen Jharkhand
+          <img src="/images/logo.jpg" alt="Unseen Jharkhand" className="brand-logo" />
+          <span>Unseen Jharkhand</span>
         </Link>
         <nav className="nav">
           {!isGuide && (
@@ -57,6 +57,7 @@ export default function Header() {
               <Link className={`nav-link ${location.pathname === '/' ? 'active' : ''}`} to="/">{t('home')}</Link>
               <Link className={`nav-link ${location.pathname === '/bookings' ? 'active' : ''}`} to="/bookings">{t('bookings')}</Link>
               <Link className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`} to="/about">{t('about')}</Link>
+              <Link className={`nav-link ${location.pathname === '/partner' ? 'active' : ''}`} to="/partner">Register Shop</Link>
               {!isAuthenticated && (
                 <Link className={`nav-link ${location.pathname === '/login' ? 'active' : ''}`} to="/login">{t('login')}</Link>
               )}

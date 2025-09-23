@@ -7,11 +7,12 @@ import authRouter from './routes/auth.js'
 import bookingsRouter from './routes/bookings.js'
 import guideRouter from './routes/guide.js'
 import aiRouter from './routes/ai.js'
-import { db, seedGuidesIfEmpty, seedHotelsIfEmpty } from './sqlite.js'
+import { db, seedGuidesIfEmpty, seedHotelsIfEmpty, seedShopsIfEmpty } from './sqlite.js'
 import paymentsRouter from './routes/payments.js'
 import hotelsRouter from './routes/hotels.js'
 import messagesRouter from './routes/messages.js'
 import itineraryRouter from './routes/itinerary.js'
+import shopsRouter from './routes/shops.js'
 
 dotenv.config()
 
@@ -35,6 +36,7 @@ app.use('/api/messages', messagesRouter)
 app.use('/api/itinerary', itineraryRouter)
 app.use('/api/ai', aiRouter)
 app.use('/api/payments', paymentsRouter)
+app.use('/api/shops', shopsRouter)
 
 // --- Static hosting for frontend build ---
 // Resolve path to frontend/dist (frontend is sibling of backend)
@@ -51,5 +53,6 @@ app.get('*', (req, res, next) => {
 app.listen(PORT, () => {
   try { seedGuidesIfEmpty() } catch (e) { console.error('Seeding guides failed:', e) }
   try { seedHotelsIfEmpty() } catch (e) { console.error('Seeding hotels failed:', e) }
+  try { seedShopsIfEmpty() } catch (e) { console.error('Seeding shops failed:', e) }
   console.log(`Backend listening on http://localhost:${PORT}`)
 })

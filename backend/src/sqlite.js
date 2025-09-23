@@ -56,6 +56,20 @@ CREATE TABLE IF NOT EXISTS hotels (
   lng REAL
 );
 
+CREATE TABLE IF NOT EXISTS shops (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  shopId TEXT UNIQUE,
+  name TEXT NOT NULL,
+  shopNumber TEXT,
+  licence TEXT,
+  location TEXT,
+  phone TEXT,
+  password TEXT,
+  ownerName TEXT,
+  category TEXT,
+  createdAt TEXT DEFAULT (datetime('now'))
+);
+
 CREATE TABLE IF NOT EXISTS messages (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   guideId INTEGER NOT NULL,
@@ -132,6 +146,27 @@ export function seedGuidesIfEmpty() {
     const txn = db.transaction((rows) => {
       for (const r of rows) insert.run(r)
     })
+    txn(initial)
+  }
+}
+
+export function seedShopsIfEmpty() {
+  const row = db.prepare('SELECT COUNT(1) as c FROM shops').get()
+  if (row.c === 0) {
+    const insert = db.prepare(`INSERT INTO shops (shopId, name, shopNumber, licence, location, phone, password, ownerName, category) VALUES (@shopId, @name, @shopNumber, @licence, @location, @phone, @password, @ownerName, @category)`)
+    const initial = [
+      { shopId: 'JH-SHOP-001', name: 'Sohrai Crafts', shopNumber: '12A', licence: 'LIC-2025-001', location: 'Ranchi', phone: '9991100001', ownerName: 'Aman Kumar', category: 'Handicrafts', password: 'Shop@123' },
+      { shopId: 'JH-SHOP-002', name: 'Dokra Art House', shopNumber: '7B', licence: 'LIC-2025-002', location: 'Hazaribagh', phone: '9991100002', ownerName: 'Priya Soren', category: 'Metal Art', password: 'Shop@123' },
+      { shopId: 'JH-SHOP-003', name: 'Bamboo Works', shopNumber: '18', licence: 'LIC-2025-003', location: 'Gumla', phone: '9991100003', ownerName: 'Rohit Singh', category: 'Bamboo', password: 'Shop@123' },
+      { shopId: 'JH-SHOP-004', name: 'Tussar Weaves', shopNumber: 'C-22', licence: 'LIC-2025-004', location: 'Jamshedpur', phone: '9991100004', ownerName: 'Arjun Das', category: 'Textiles', password: 'Shop@123' },
+      { shopId: 'JH-SHOP-005', name: 'Paitkar Gallery', shopNumber: '4/2', licence: 'LIC-2025-005', location: 'Ambadubi', phone: '9991100005', ownerName: 'Meera Oraon', category: 'Paintings', password: 'Shop@123' },
+      { shopId: 'JH-SHOP-006', name: 'Sohrai Studio', shopNumber: '9', licence: 'LIC-2025-006', location: 'Hazaribagh', phone: '9991100006', ownerName: 'Nisha Oraon', category: 'Paintings', password: 'Shop@123' },
+      { shopId: 'JH-SHOP-007', name: 'Tribal Taste', shopNumber: 'K-3', licence: 'LIC-2025-007', location: 'Ranchi', phone: '9991100007', ownerName: 'Dev Verma', category: 'Food', password: 'Shop@123' },
+      { shopId: 'JH-SHOP-008', name: 'Stone & Wood', shopNumber: '21', licence: 'LIC-2025-008', location: 'Ghatshila', phone: '9991100008', ownerName: 'Ritika Ho', category: 'Wood/Stone', password: 'Shop@123' },
+      { shopId: 'JH-SHOP-009', name: 'Handloom Hub', shopNumber: '5C', licence: 'LIC-2025-009', location: 'Bokaro', phone: '9991100009', ownerName: 'Kiran Bose', category: 'Textiles', password: 'Shop@123' },
+      { shopId: 'JH-SHOP-010', name: 'Heritage Bazaar', shopNumber: 'A-10', licence: 'LIC-2025-010', location: 'Deoghar', phone: '9991100010', ownerName: 'Sita Pandey', category: 'Mixed', password: 'Shop@123' },
+    ]
+    const txn = db.transaction((rows) => { for (const r of rows) insert.run(r) })
     txn(initial)
   }
 }

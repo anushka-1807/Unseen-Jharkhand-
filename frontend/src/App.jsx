@@ -14,6 +14,7 @@ import Arts from './pages/Arts'
 import Folks from './pages/Folks'
 import TouristAuth from './pages/TouristAuth'
 import AdminDashboard from './pages/AdminDashboard'
+import Partner from './pages/Partner'
 import { useEffect } from 'react'
 import { useAuth } from './context/AuthContext'
 import ChatbotWidget from './components/ChatbotWidget'
@@ -71,6 +72,7 @@ export default function App() {
         <Route path="/folks" element={<Folks />} />
         <Route path="/saved" element={<Saved />} />
         <Route path="/register-guide" element={<RegisterGuide />} />
+        <Route path="/partner" element={<Partner />} />
         <Route path="/guide" element={<GuideDashboard />} />
         <Route path="/payments" element={<Payments />} />
         <Route path="/admin" element={<ProtectedAdmin />} />

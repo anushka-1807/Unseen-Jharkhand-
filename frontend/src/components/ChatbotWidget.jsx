@@ -42,7 +42,7 @@ export default function ChatbotWidget() {
   // Probe backend AI health when opening
   useEffect(() => {
     if (!open) return
-    fetch('http://localhost:5000/api/ai/health').then(async (r) => {
+    fetch(new URL('/api/ai/health', API_BASE)).then(async (r) => {
       if (!r.ok) throw new Error('health failed')
       const d = await r.json()
       const ok = Boolean(d?.keyPresent)
@@ -110,8 +110,17 @@ export default function ChatbotWidget() {
         className="chatbot-btn"
         aria-label={open ? t('chatbotClose') : t('chatbotOpen')}
         onClick={() => setOpen(o => !o)}
+        style={{ background: 'transparent', border: 'none', outline: 'none', boxShadow: 'none', padding: 8, borderRadius: '999px' }}
       >
-        {open ? '×' : t('chatbotOpen')}
+        {open ? '×' : (
+          <img
+            src="/images/chat.jpg"
+            alt="Open chat"
+            width={58}
+            height={58}
+            style={{ display:'inline-block', verticalAlign:'middle', objectFit:'cover', borderRadius: '50%' }}
+          />
+        )}
       </button>
 
       {open && (
